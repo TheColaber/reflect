@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Reflect - Write Down Everything</title>
+    <script src="./libraries/vue.min.js" defer></script>
+    <script src="./js/index.js" type="module"></script>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <template v-if="true">
+        <div class="sidebar">
+          <span class="title">
+            <img src="./images/icon.svg" />
+            Reflect</span
+          >
+          <div class="content">
+            <div
+              v-for="(file, index) of files"
+              class="item"
+              :class="{ selected: selected === index }"
+              @click="selected = index"
+              @contextmenu.stop.prevent="showContextMenu($event, { sidebarItem: { index } })"
+            >
+              <span>{{ file.name }}</span>
+            </div>
+            <div
+              class="item"
+              :class="{ nohover: creatingFile }"
+              @click="creatingFile = true"
+            >
+              <span v-if="!creatingFile">Add New File</span>
+              <input
+                @keyup.enter="createFile(newFileName)"
+                v-else
+                v-focus
+                v-select
+                v-model="newFileName"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="text-content">
+          <textarea
+            spellcheck="true"
+            v-if="loaded && selected != null"
+            v-model="files[selected].content"
+            v-focus
+          ></textarea>
+        </div>
+        <div
+          class="contextmenu"
+          v-show="contextMenu.show"
+          :style="{
+            left: contextMenu.x +'px',
+            top: contextMenu.y +'px'
+          }"
+          v-click-outside="hideContextMenu"
+        >
+          <div
+            class="item"
+            v-for="item of contextMenu.items"
+            @click="item.click"
+          >
+            {{ item.name }}
+          </div>
+        </div>
+      </template>
+    </div>
+  </body>
+</html>
