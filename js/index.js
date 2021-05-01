@@ -7,6 +7,16 @@ const app = Vue.createApp({
       selected: null,
       loaded: false,
       contextMenu: {},
+      icons: [
+        {
+          path: "./images/upload-file.svg",
+          click: this.clickFileInput,
+        },
+        {
+          path: "./images/github.svg",
+          click: this.openGitHub,
+        },
+      ],
     };
   },
   methods: {
@@ -48,6 +58,30 @@ const app = Vue.createApp({
           this.files.length - 2 >= 0 ? this.files.length - 2 : null;
       this.files.splice(this.contextMenu.extra.index, 1);
       this.hideContextMenu();
+    },
+
+    clickFileInput() {
+      let fileInput = this._.refs.fileInput;
+      fileInput.click();
+      const callback = (event) => {
+        console.log(event);
+      };
+
+      fileInput.addEventListener(
+        "change",
+        (event) => {
+          let file = fileInput.files[0];
+          var reader = new FileReader();
+          reader.readAsText(file, "UTF-8");
+          reader.onload = (event) => {
+            this.createFile(file.name.split(".")[0], event.target.result);
+          };
+        },
+        { once: true }
+      );
+    },
+    openGitHub() {
+      location.href = "https://github.com/TheColaber/reflect";
     },
   },
   mounted() {

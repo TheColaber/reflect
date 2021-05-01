@@ -91,6 +91,29 @@ span.title img {
   background: #00000022;
   color: white;
 }
+.bottom-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 10px;
+  flex: 1;
+}
+.bottom-bar .item {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.bottom-bar .item img {
+  height: 35px;
+  padding: 10px;
+  border-radius: 30%;
+}
+
+.bottom-bar .item img:hover {
+  background: #00000011;
+}
 
 .text-content {
   width: 100%;

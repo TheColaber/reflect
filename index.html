@@ -38,6 +38,11 @@
                 v-model="newFileName"
               />
             </div>
+            <div class="bottom-bar">
+              <div class="item" v-for="icon of icons">
+                <img :src="icon.path" @click="icon.click" />
+              </div>
+            </div>
           </div>
         </div>
         <div class="text-content">
@@ -65,6 +70,7 @@
             {{ item.name }}
           </div>
         </div>
+        <input type="file" v-show="false" accept="text/plain" ref="fileInput" />
       </template>
     </div>
   </body>
