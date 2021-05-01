@@ -22,7 +22,14 @@
               @click="selected = index"
               @contextmenu.stop.prevent="showContextMenu($event, { sidebarItem: { index } })"
             >
-              <span>{{ file.name }}</span>
+              <span v-if="!file.editing">{{ file.name }}</span>
+              <input
+                @keyup.enter="file.name = newFileName, file.editing = false"
+                v-else
+                v-focus
+                v-select
+                v-model="newFileName"
+              />
             </div>
             <div
               class="item"

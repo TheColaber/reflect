@@ -43,6 +43,10 @@ const app = Vue.createApp({
             name: "Rename File",
             click: this.renameFile,
           },
+          {
+            name: "Download File",
+            click: this.downloadFile,
+          },
         ];
         this.contextMenu.x = event.clientX;
         this.contextMenu.y = event.clientY;
@@ -57,6 +61,27 @@ const app = Vue.createApp({
         this.selected =
           this.files.length - 2 >= 0 ? this.files.length - 2 : null;
       this.files.splice(this.contextMenu.extra.index, 1);
+      this.hideContextMenu();
+    },
+    renameFile() {
+      this.hideContextMenu();
+      let file = this.files[this.contextMenu.extra.index];
+      file.editing = true;
+    },
+    downloadFile() {
+      let file = this.files[this.contextMenu.extra.index];
+      const url = window.URL.createObjectURL(
+        new Blob([file.content], {
+          type: "text/plain",
+        })
+      );
+      const downloadA = document.createElement("a");
+      downloadA.href = url;
+      downloadA.download = file.name + ".txt";
+      document.body.appendChild(downloadA);
+      downloadA.click();
+      window.URL.revokeObjectURL(url);
+      downloadA.remove();
       this.hideContextMenu();
     },
 
