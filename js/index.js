@@ -1,8 +1,14 @@
+let files = [];
+if (localStorage.files) {
+  try {
+    files = JSON.parse(localStorage.files);
+  } catch (e) {}
+}
 const app = Vue.createApp({
   data() {
     return {
+      files,
       creatingFile: false,
-      files: [],
       newFileName: "New File",
       selected: null,
       loaded: false,
@@ -110,9 +116,19 @@ const app = Vue.createApp({
     },
   },
   mounted() {
-    this.createFile("File", "Start Typing!");
+    if (files.length === 0) {
+      this.createFile("File", "Start Typing!");
+    }
     this.selected = 0;
     this.loaded = true;
+  },
+  watch: {
+    files: {
+      handler(files) {
+        localStorage.files = JSON.stringify(files);
+      },
+      deep: true,
+    },
   },
 });
 
