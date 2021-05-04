@@ -1,10 +1,18 @@
-@import url("https://fonts.googleapis.com/css2?family=Sora&display=swap");
+@import url("../libraries/sora.css");
 
 * {
   font-family: Sora, sans-serif;
 }
 *::selection {
   background: #00000022;
+}
+img {
+  user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 body {
@@ -57,7 +65,7 @@ span.title img {
   width: 100%;
   height: 100%;
   overflow-y: auto;
-  padding: 20px 0;
+  padding: 10px 0;
   border-radius: 20px;
 }
 
@@ -155,6 +163,23 @@ span.title img {
 .text-content textarea:focus {
   background: #0000000a;
 }
+
+.file-title {
+  display: flex;
+  align-items: center;
+  font-size: 25px;
+  font-weight: 500;
+  padding-left: 20px;
+  border-bottom: solid 1px #000;
+  margin-left: 20px;
+  margin-bottom: 5px;
+  margin-right: 20px;
+}
+.file-title img {
+  height: 24px;
+  cursor: pointer;
+}
+
 .text-content .tools {
   background: #91ffbd;
   padding: 10px;
@@ -196,6 +221,25 @@ span.title img {
 
 .contextmenu .item:hover {
   background: #ffffff11;
+}
+
+.tooltip {
+  display: flex;
+  flex-direction: column;
+  background: #222222;
+  position: fixed;
+  padding: 2px 4px;
+  border-radius: 5px;
+  color: white;
+  max-width: 180px;
+  user-select: none;
+  cursor: default;
+  transition: all 0.2s ease-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 
 @media only screen and (max-width: 800px) {

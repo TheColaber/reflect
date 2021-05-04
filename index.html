@@ -25,11 +25,11 @@
             >
               <span v-if="!file.editing">{{ file.name }}</span>
               <input
-                @keyup.enter="file.name = newFileName, file.editing = false"
+                @keyup.enter="file.editing = false"
                 v-else
                 v-focus
                 v-select
-                v-model="newFileName"
+                v-model="file.name"
               />
             </div>
             <div
@@ -48,7 +48,7 @@
             </div>
             <div class="bottom-bar">
               <div class="item" v-for="icon of icons">
-                <img :src="icon.path" @click="icon.click" />
+                <img :src="icon.path" @click="icon.click" v-title="icon.name" />
               </div>
             </div>
           </div>
@@ -58,6 +58,11 @@
           :style="cssVariables"
           v-if="loaded && selected != null"
         >
+          <div class="file-title">
+            {{ files[selected].name }}
+            <img src="./images/edit.svg" @click="renameFile()" />
+            <img src="./images/trash.svg" @click="removeFile()" />
+          </div>
           <textarea
             spellcheck="true"
             v-if="loaded && selected != null"
@@ -88,6 +93,19 @@
             {{ item.name }}
           </div>
         </div>
+        <transition name="fade">
+          <div
+            class="tooltip"
+            v-show="tooltip.show"
+            :style="{
+              left: tooltip.x +'px',
+              top: tooltip.y +'px'
+            }"
+          >
+            {{ tooltip.value }}
+          </div>
+        </transition>
+
         <input type="file" v-show="false" accept="text/plain" ref="fileInput" />
       </template>
     </div>

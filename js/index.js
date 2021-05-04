@@ -4,10 +4,12 @@ if (localStorage.files) {
     files = JSON.parse(localStorage.files);
   } catch (e) {}
 }
+let tooltips = [];
 const app = Vue.createApp({
   data() {
     return {
       files,
+      tooltips,
       styles: {
         textSize: 20,
       },
@@ -16,12 +18,15 @@ const app = Vue.createApp({
       selected: null,
       loaded: false,
       contextMenu: {},
+      tooltip: {},
       icons: [
         {
+          name: "Upload",
           path: "./images/upload-file.svg",
           click: this.clickFileInput,
         },
         {
+          name: "GitHub",
           path: "./images/github.svg",
           click: this.openGitHub,
         },
@@ -34,6 +39,34 @@ const app = Vue.createApp({
       --textSize: ${this.styles.textSize}px;
       `;
     },
+  },
+  mounted() {
+    if (files.length === 0) {
+      this.createFile("File", "Start Typing!");
+    }
+    this.selected = 0;
+
+    addEventListener("mousemove", (event) => {
+      clearTimeout(this.tooltip.timeout);
+      const found = this.tooltips.find((tooltip) =>
+        event.path.includes(tooltip.el)
+      );
+      // found.value
+      if (!found) return (this.tooltip.show = false);
+      const showTooltip = () => {
+        this.tooltip.x = event.clientX + 10;
+        this.tooltip.y = event.clientY + 10;
+        this.tooltip.value = found.value;
+        this.tooltip.show = true;
+      };
+      if (found.wait) {
+        this.tooltip.timeout = setTimeout(showTooltip, 1000);
+        return;
+      }
+      showTooltip();
+    });
+
+    this.loaded = true;
   },
   methods: {
     createFile(name, content = "") {
@@ -53,11 +86,15 @@ const app = Vue.createApp({
         this.contextMenu.items = [
           {
             name: "Remove File",
-            click: this.removeFile,
+            click: () => {
+              this.removeFile(this.contextMenu.extra.index);
+            },
           },
           {
             name: "Rename File",
-            click: this.renameFile,
+            click: () => {
+              this.renameFile(this.contextMenu.extra.index);
+            },
           },
           {
             name: "Download File",
@@ -72,16 +109,16 @@ const app = Vue.createApp({
     hideContextMenu() {
       this.contextMenu.show = false;
     },
-    removeFile() {
+    removeFile(index = this.selected) {
       if (this.files.length - 2 < this.selected)
         this.selected =
           this.files.length - 2 >= 0 ? this.files.length - 2 : null;
-      this.files.splice(this.contextMenu.extra.index, 1);
+      this.files.splice(index, 1);
       this.hideContextMenu();
     },
-    renameFile() {
+    renameFile(index = this.selected) {
       this.hideContextMenu();
-      let file = this.files[this.contextMenu.extra.index];
+      let file = this.files[index];
       file.editing = true;
     },
     downloadFile() {
@@ -125,13 +162,6 @@ const app = Vue.createApp({
       location.href = "https://github.com/TheColaber/reflect";
     },
   },
-  mounted() {
-    if (files.length === 0) {
-      this.createFile("File", "Start Typing!");
-    }
-    this.selected = 0;
-    this.loaded = true;
-  },
   watch: {
     files: {
       handler(files) {
@@ -152,6 +182,11 @@ app.directive("select", {
     setTimeout(() => {
       el.select();
     }, 0);
+  },
+});
+app.directive("title", {
+  mounted(el, binding) {
+    tooltips.push({ el, value: binding.value, wait: binding.arg === "wait" });
   },
 });
 app.directive("click-outside", {
