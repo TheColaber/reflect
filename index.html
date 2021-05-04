@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Reflect - Write Down Everything</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="./libraries/vue.min.js" defer></script>
     <script src="./js/index.js" type="module"></script>
     <link rel="stylesheet" href="./css/style.css" />
@@ -52,13 +53,23 @@
             </div>
           </div>
         </div>
-        <div class="text-content">
+        <div
+          class="text-content"
+          :style="cssVariables"
+          v-if="loaded && selected != null"
+        >
           <textarea
             spellcheck="true"
             v-if="loaded && selected != null"
             v-model="files[selected].content"
             v-focus
           ></textarea>
+          <div class="tools">
+            <div class="item text-size">
+              <img src="./images/text.svg" />
+              <input v-model="styles.textSize" min="1" max="36" type="number" />
+            </div>
+          </div>
         </div>
         <div
           class="contextmenu"

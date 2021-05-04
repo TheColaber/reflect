@@ -8,6 +8,9 @@ const app = Vue.createApp({
   data() {
     return {
       files,
+      styles: {
+        textSize: 20,
+      },
       creatingFile: false,
       newFileName: "New File",
       selected: null,
@@ -24,6 +27,13 @@ const app = Vue.createApp({
         },
       ],
     };
+  },
+  computed: {
+    cssVariables() {
+      return `
+      --textSize: ${this.styles.textSize}px;
+      `;
+    },
   },
   methods: {
     createFile(name, content = "") {
