@@ -13,6 +13,7 @@ const app = Vue.createApp({
       styles: {
         textSize: 20,
       },
+      darkMode: localStorage.darkMode === "true",
       creatingFile: false,
       newFileName: "New File",
       selected: null,
@@ -21,14 +22,22 @@ const app = Vue.createApp({
       tooltip: {},
       icons: [
         {
+          id: "upload",
           name: "Upload",
           path: "./images/upload-file.svg",
           click: this.clickFileInput,
         },
         {
+          id: "github",
           name: "GitHub",
           path: "./images/github.svg",
           click: this.openGitHub,
+        },
+        {
+          id: "mode",
+          name: "Toggle Mode",
+          path: "",
+          click: this.toggleMode,
         },
       ],
     };
@@ -45,6 +54,8 @@ const app = Vue.createApp({
       this.createFile("File", "Start Typing!");
     }
     this.selected = 0;
+
+    this.setDarkModeIcon();
 
     addEventListener("mousemove", (event) => {
       clearTimeout(this.tooltip.timeout);
@@ -161,6 +172,15 @@ const app = Vue.createApp({
     openGitHub() {
       location.href = "https://github.com/TheColaber/reflect";
     },
+    toggleMode() {
+      this.darkMode = !this.darkMode;
+      this.setDarkModeIcon();
+    },
+    setDarkModeIcon() {
+      this.icons.find((icon) => icon.id == "mode").path = this.darkMode
+        ? "./images/sun.svg"
+        : "./images/moon.svg";
+    },
   },
   watch: {
     files: {
@@ -168,6 +188,9 @@ const app = Vue.createApp({
         localStorage.files = JSON.stringify(files);
       },
       deep: true,
+    },
+    darkMode(mode) {
+      localStorage.darkMode = mode;
     },
   },
 });

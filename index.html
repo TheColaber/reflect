@@ -9,7 +9,14 @@
   </head>
   <body>
     <div id="app">
-      <template v-if="true">
+      <div
+        style="display: none;"
+        v-show="true"
+        :class="{
+          darkMode: darkMode
+        }"
+        class="wrapper"
+      >
         <div class="sidebar">
           <span class="title">
             <img src="./images/icon.svg" />
@@ -59,9 +66,17 @@
           v-if="loaded && selected != null"
         >
           <div class="file-title">
-            {{ files[selected].name }}
-            <img src="./images/edit.svg" @click="renameFile()" />
-            <img src="./images/trash.svg" @click="removeFile()" />
+            <span>{{ files[selected].name }}</span>
+            <img
+              src="./images/edit.svg"
+              v-title="'Rename File'"
+              @click="renameFile()"
+            />
+            <img
+              src="./images/trash.svg"
+              v-title="'Remove File'"
+              @click="removeFile()"
+            />
           </div>
           <textarea
             spellcheck="true"
@@ -80,9 +95,9 @@
           class="contextmenu"
           v-show="contextMenu.show"
           :style="{
-            left: contextMenu.x +'px',
-            top: contextMenu.y +'px'
-          }"
+          left: contextMenu.x +'px',
+          top: contextMenu.y +'px'
+        }"
           v-click-outside="hideContextMenu"
         >
           <div
@@ -98,16 +113,16 @@
             class="tooltip"
             v-show="tooltip.show"
             :style="{
-              left: tooltip.x +'px',
-              top: tooltip.y +'px'
-            }"
+            left: tooltip.x +'px',
+            top: tooltip.y +'px'
+          }"
           >
             {{ tooltip.value }}
           </div>
         </transition>
 
         <input type="file" v-show="false" accept="text/plain" ref="fileInput" />
-      </template>
+      </div>
     </div>
   </body>
 </html>
