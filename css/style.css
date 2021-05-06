@@ -4,9 +4,6 @@
   font-family: Sora, sans-serif;
   transition: all 0.2s ease;
 }
-*::selection {
-  background: #00000022;
-}
 img {
   user-drag: none;
   user-select: none;
@@ -34,6 +31,7 @@ body {
   --content-background: #00000005;
   --content-focus-background: #0000000a;
   --bottom-border-background: #000;
+  --selection-background: #00000022;
 }
 .wrapper.darkMode {
   --background: #000011;
@@ -41,9 +39,14 @@ body {
   --content-background: #ffffff0f;
   --content-focus-background: #ffffff15;
   --bottom-border-background: #fff;
+  --selection-background: #ffffff22;
 }
 .wrapper.darkMode .file-title img {
   filter: invert(1);
+}
+
+.wrapper *::selection {
+  background: var(--selection-background);
 }
 
 .sidebar {
@@ -123,6 +126,9 @@ span.title img {
 
 .sidebar > .content > .item > span {
   padding: 0px 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .sidebar > .content > .item > input {
   height: 20px;
@@ -165,7 +171,7 @@ span.title img {
   flex-direction: column;
   margin: 8px;
 }
-.text-content textarea {
+.text-content .textarea {
   resize: none;
   border: none;
   background: var(--content-background);
@@ -176,7 +182,7 @@ span.title img {
   color: var(--content-color);
   font-size: var(--textSize);
 }
-.text-content textarea:focus {
+.text-content .textarea:focus {
   background: var(--content-focus-background);
 }
 
@@ -196,6 +202,13 @@ span.title img {
   height: 24px;
   cursor: pointer;
 }
+.file-title span {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 0;
+  white-space: nowrap;
+}
 
 .text-content .tools {
   background: #91ffbd;
@@ -206,6 +219,16 @@ span.title img {
 }
 .tools .item {
   display: flex;
+  align-items: center;
+}
+.tools .item.button {
+  border-radius: 5px;
+}
+.tools .item.button img {
+  height: 30px;
+}
+.tools .item.button:hover {
+  background: #00000021;
 }
 .tools input[type="number"] {
   height: 10px;

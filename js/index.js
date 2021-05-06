@@ -10,14 +10,8 @@ const app = Vue.createApp({
     return {
       files,
       tooltips,
-      styles: {
-        textSize: 20,
-      },
-      darkMode: localStorage.darkMode === "true",
-      creatingFile: false,
       newFileName: "New File",
-      selected: null,
-      loaded: false,
+      darkMode: localStorage.darkMode === "true",
       contextMenu: {},
       tooltip: {},
       icons: [
@@ -40,15 +34,13 @@ const app = Vue.createApp({
           click: this.toggleMode,
         },
       ],
+      tools: ["bold", "italic", "underline"],
+      selected: null,
+      creatingFile: false,
+      loaded: false,
     };
   },
-  computed: {
-    cssVariables() {
-      return `
-      --textSize: ${this.styles.textSize}px;
-      `;
-    },
-  },
+  computed: {},
   mounted() {
     if (files.length === 0) {
       this.createFile("File", "Start Typing!");
@@ -180,6 +172,10 @@ const app = Vue.createApp({
       this.icons.find((icon) => icon.id == "mode").path = this.darkMode
         ? "./images/sun.svg"
         : "./images/moon.svg";
+    },
+    toolPress(tool) {
+      document.execCommand(tool);
+      this.$refs.textarea.focus();
     },
   },
   watch: {

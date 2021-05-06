@@ -60,11 +60,7 @@
             </div>
           </div>
         </div>
-        <div
-          class="text-content"
-          :style="cssVariables"
-          v-if="loaded && selected != null"
-        >
+        <div class="text-content" v-if="loaded && selected != null">
           <div class="file-title">
             <span>{{ files[selected].name }}</span>
             <img
@@ -78,18 +74,27 @@
               @click="removeFile()"
             />
           </div>
-          <textarea
-            spellcheck="true"
-            v-if="loaded && selected != null"
-            v-model="files[selected].content"
-            v-focus
-          ></textarea>
           <div class="tools">
-            <div class="item text-size">
-              <img src="./images/text.svg" />
-              <input v-model="styles.textSize" min="1" max="36" type="number" />
+            <div
+              class="item button"
+              @click="toolPress(tool)"
+              v-title="tool"
+              v-for="tool of tools"
+            >
+              <img :src="`./images/${tool}.svg`" />
             </div>
           </div>
+          <div
+            ref="textarea"
+            class="textarea"
+            contenteditable
+            spellcheck="true"
+            v-if="loaded && selected != null"
+            v-focus
+            v-once
+            v-html="files[selected].content"
+            @input="files[selected].content = $event.target.innerHTML"
+          ></div>
         </div>
         <div
           class="contextmenu"
