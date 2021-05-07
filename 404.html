@@ -18,10 +18,14 @@
         class="wrapper"
       >
         <div class="sidebar">
-          <a style="color: #ffffff; text-decoration: none" href="../">
+          <a style="text-decoration: none;   cursor:pointer" href="index.html">
           <span class="title">
             <img src="./images/icon.svg" />
             Reflect</span></a>
           <h1>Hello world</h1>
+          <div class="bottom-bar">
+              <div class="item" v-for="icon of icons">
+                <img :src="icon.path" @click="icon.click" v-title="icon.name" />
+              </div>
   </body>
 </html>
