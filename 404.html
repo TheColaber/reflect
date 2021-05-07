@@ -54,17 +54,7 @@
               <img :src="`./images/${tool}.svg`" />
             </div>
           </div>
-          <div
-            ref="textarea"
-            class="textarea"
-            contenteditable
-            spellcheck="true"
-            v-if="loaded && selected != null"
-            v-focus
-            v-once
-            v-html="files[selected].content"
-            @input="files[selected].content = $event.target.innerHTML"
-          ></div>
+         
         </div>
         <div
           class="contextmenu"
