@@ -30,30 +30,7 @@
             </div>
           </div>
         </div>
-        <div class="text-content" v-if="loaded && selected != null">
-          <div class="file-title">
-            <span>{{ files[selected].name }}</span>
-            <img
-              src="./images/edit.svg"
-              v-title="'Rename File'"
-              @click="renameFile()"
-            />
-            <img
-              src="./images/trash.svg"
-              v-title="'Remove File'"
-              @click="removeFile()"
-            />
-          </div>
-          <div class="tools">
-            <div
-              class="item button"
-              @click="toolPress(tool)"
-              v-title="tool"
-              v-for="tool of tools"
-            >
-              <img :src="`./images/${tool}.svg`" />
-            </div>
-          </div>
+
           <div
             ref="textarea"
             class="textarea"
