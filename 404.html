@@ -23,9 +23,80 @@
             <img src="./images/icon.svg" />
             Reflect</span></a>
           <h1>Hello world</h1>
-          <div class="bottom-bar">
+  <div class="bottom-bar">
               <div class="item" v-for="icon of icons">
                 <img :src="icon.path" @click="icon.click" v-title="icon.name" />
               </div>
+            </div>
+          </div>
+        </div>
+        <div class="text-content" v-if="loaded && selected != null">
+          <div class="file-title">
+            <span>{{ files[selected].name }}</span>
+            <img
+              src="./images/edit.svg"
+              v-title="'Rename File'"
+              @click="renameFile()"
+            />
+            <img
+              src="./images/trash.svg"
+              v-title="'Remove File'"
+              @click="removeFile()"
+            />
+          </div>
+          <div class="tools">
+            <div
+              class="item button"
+              @click="toolPress(tool)"
+              v-title="tool"
+              v-for="tool of tools"
+            >
+              <img :src="`./images/${tool}.svg`" />
+            </div>
+          </div>
+          <div
+            ref="textarea"
+            class="textarea"
+            contenteditable
+            spellcheck="true"
+            v-if="loaded && selected != null"
+            v-focus
+            v-once
+            v-html="files[selected].content"
+            @input="files[selected].content = $event.target.innerHTML"
+          ></div>
+        </div>
+        <div
+          class="contextmenu"
+          v-show="contextMenu.show"
+          :style="{
+          left: contextMenu.x +'px',
+          top: contextMenu.y +'px'
+        }"
+          v-click-outside="hideContextMenu"
+        >
+          <div
+            class="item"
+            v-for="item of contextMenu.items"
+            @click="item.click"
+          >
+            {{ item.name }}
+          </div>
+        </div>
+        <transition name="fade">
+          <div
+            class="tooltip"
+            v-show="tooltip.show"
+            :style="{
+            left: tooltip.x +'px',
+            top: tooltip.y +'px'
+          }"
+          >
+            {{ tooltip.value }}
+          </div>
+        </transition>
+
+        <input type="file" v-show="false" accept="text/plain" ref="fileInput" />
+      </div>
   </body>
 </html>
