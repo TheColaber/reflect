@@ -81,7 +81,6 @@ const app = Vue.createApp({
       this.creatingFile = false;
       this.newFileName = "New File";
       this.selected = this.files.length - 1;
-      console.log(this.files);
     },
     showContextMenu(event, { sidebarItem }) {
       if (sidebarItem) {
@@ -144,12 +143,8 @@ const app = Vue.createApp({
     },
 
     clickFileInput() {
-      let fileInput = this._.refs.fileInput;
+      let fileInput = this.$refs.fileInput;
       fileInput.click();
-      const callback = (event) => {
-        console.log(event);
-      };
-
       fileInput.addEventListener(
         "change",
         (event) => {
@@ -217,12 +212,10 @@ app.directive("title", {
 app.directive("click-outside", {
   beforeMount(el, binding) {
     el.clickOutsideEvent = (event) => {
-      console.log(el, getComputedStyle(el).display);
       if (
         !(el === event.target || el.contains(event.target)) &&
         getComputedStyle(el).display != "none"
       ) {
-        console.log("s");
         binding.value(event, el);
       }
     };

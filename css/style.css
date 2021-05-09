@@ -32,6 +32,7 @@ body {
   --content-focus-background: #0000000a;
   --bottom-border-background: #000;
   --selection-background: #00000022;
+  --small-sidebar-background: #ffffffaa;
 }
 .wrapper.darkMode {
   --background: #000011;
@@ -40,6 +41,7 @@ body {
   --content-focus-background: #ffffff15;
   --bottom-border-background: #fff;
   --selection-background: #ffffff22;
+  --small-sidebar-background: #000000aa;
 }
 .wrapper.darkMode :is(.file-title, .open-sidebar) img {
   filter: invert(1);
@@ -214,7 +216,7 @@ span.title img {
   background: #91ffbd;
   padding: 10px;
   border-radius: 20px;
-  margin-top: 10px;
+  margin: 10px 0px;
   display: flex;
 }
 .tools .item {
@@ -250,6 +252,7 @@ span.title img {
   padding: 15px 12px;
   border-radius: 5px;
   color: white;
+  z-index: 2;
 }
 
 .contextmenu .item {
@@ -274,6 +277,7 @@ span.title img {
   max-width: 180px;
   user-select: none;
   cursor: default;
+  z-index: 2;
 }
 
 .fade-enter-from,
@@ -311,10 +315,11 @@ span.title img {
   .sidebar.show {
     display: flex;
     position: fixed;
-    background: #000000aa;
+    background: var(--small-sidebar-background);
     height: -webkit-fill-available;
     z-index: 1;
-    padding-right: 10px;
+    margin: 0;
+    padding: 10px;
   }
 }
 @media only screen and (max-width: 550px) {
