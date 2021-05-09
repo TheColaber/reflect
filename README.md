@@ -9,4 +9,3 @@ Comes with:
 - File saving
 
 Made by TheColaber
-##### (retronbv made this readme)
