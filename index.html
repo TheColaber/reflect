@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Reflect - Write Down Everything</title>
+    <link rel="icon" type="image/svg+xml" href="./images/icon.svg"">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./libraries/vue.min.js" defer></script>
+    <script src="./js/index.js" type="module"></script>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div
+        style="display: none;"
+        v-show="true"
+        :class="{
+          darkMode: darkMode
+        }"
+        class="wrapper"
+      >
+        <div
+          class="sidebar"
+          :class="{
+            show: showSidebar
+          }"
+          v-click-outside="hideSidebar"
+          @mouseleave="hideSidebar"
+        >
+          <span class="title">
+            <img src="./images/icon.svg" />
+            Reflect</span
+          >
+          <div class="content">
+            <div
+              v-for="(file, index) of files"
+              class="item"
+              :class="{ selected: selected === index }"
+              @click="selected = index, showSidebar = false"
+              @contextmenu.stop.prevent="showContextMenu($event, { sidebarItem: { index } })"
+            >
+              <span v-if="!file.editing">{{ file.name }}</span>
+              <input
+                @keyup.enter="file.editing = false"
+                v-else
+                v-focus
+                v-select
+                v-model="file.name"
+              />
+            </div>
+            <div
+              class="item"
+              :class="{ nohover: creatingFile }"
+              @click="creatingFile = true"
+            >
+              <span v-if="!creatingFile">Add New File</span>
+              <input
+                @keyup.enter="createFile(newFileName)"
+                v-else
+                v-focus
+                v-select
+                v-model="newFileName"
+              />
+            </div>
+            <div class="bottom-bar">
+              <div class="item" v-for="icon of icons">
+                <img :src="icon.path" @click="icon.click" v-title="icon.name" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="open-sidebar">
+          <img
+            src="./images/left.svg"
+            v-title="'Toggle Sidebar'"
+            @click.stop="showSidebar = true"
+          />
+        </div>
+        <div class="text-content" v-if="loaded && selected != null">
+          <div class="file-title">
+            <span>{{ files[selected].name }}</span>
+            <img
+              src="./images/edit.svg"
+              v-title="'Rename File'"
+              @click="renameFile()"
+            />
+            <img
+              src="./images/trash.svg"
+              v-title="'Remove File'"
+              @click="removeFile()"
+            />
+          </div>
+          <div class="tools">
+            <div
+              class="item button"
+              @click="toolPress(tool)"
+              v-title="tool"
+              v-for="tool of tools"
+            >
+              <img :src="`./images/${tool}.svg`" />
+            </div>
+          </div>
+          <div
+            ref="textarea"
+            class="textarea"
+            contenteditable
+            spellcheck="true"
+            v-focus
+            v-once
+            v-html="files[selected].content"
+            @input="files[selected].content = $event.target.innerHTML"
+          ></div>
+        </div>
+        <div
+          class="contextmenu"
+          v-show="contextMenu.show"
+          :style="{
+          left: contextMenu.x +'px',
+          top: contextMenu.y +'px'
+        }"
+          v-click-outside="hideContextMenu"
+        >
+          <div
+            class="item"
+            v-for="item of contextMenu.items"
+            @click="item.click"
+          >
+            {{ item.name }}
+          </div>
+        </div>
+        <transition name="fade">
+          <div
+            class="tooltip"
+            v-show="tooltip.show"
+            :style="{
+            left: tooltip.x +'px',
+            top: tooltip.y +'px'
+          }"
+          >
+            {{ tooltip.value }}
+          </div>
+        </transition>
+
+        <input type="file" v-show="false" accept="text/plain" ref="fileInput" />
+      </div>
+    </div>
+  </body>
+</html>
