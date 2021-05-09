@@ -1,2 +1,11 @@
 # reflect
-A simple little notepad to write in!
+
+Uses advanced technology to give ***you*** a simple notepad to write in!
+
+Comes with:
+- Dark mode
+- File upload
+- File renaming
+- File saving
+
+Made by TheColaber
