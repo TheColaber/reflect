@@ -33,18 +33,25 @@ const app = Vue.createApp({
           path: "",
           click: this.toggleMode,
         },
+        {
+          id: "left",
+          name: "Hide Sidebar",
+          path: "./images/left.svg",
+          click: this.hideSidebar,
+        },
       ],
       tools: ["bold", "italic", "underline"],
       selected: null,
       creatingFile: false,
       loaded: false,
       showSidebar: false,
+      textareaContent: "",
     };
   },
   computed: {},
   mounted() {
     if (files.length === 0) {
-      this.createFile("File", "Start Typing!");
+      this.createFile("File");
     }
     this.selected = 0;
 
@@ -55,7 +62,6 @@ const app = Vue.createApp({
       const found = this.tooltips.find((tooltip) =>
         event.path.includes(tooltip.el)
       );
-      // found.value
       if (!found) return (this.tooltip.show = false);
       const showTooltip = () => {
         this.tooltip.x = event.clientX + 10;
@@ -125,7 +131,6 @@ const app = Vue.createApp({
       let file = this.files[index];
       file.editing = true;
       this.showSidebar = true;
-      console.log(this);
       window.event.stopPropagation();
     },
     downloadFile() {
@@ -191,6 +196,10 @@ const app = Vue.createApp({
     },
     darkMode(mode) {
       localStorage.darkMode = mode;
+    },
+    selected(selected) {
+      if (selected == null) return;
+      this.textareaContent = this.files[selected].content;
     },
   },
 });

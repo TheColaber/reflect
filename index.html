@@ -24,7 +24,6 @@
             show: showSidebar
           }"
           v-click-outside="hideSidebar"
-          @mouseleave="hideSidebar"
         >
           <span class="title">
             <img src="./images/icon.svg" />
@@ -50,7 +49,7 @@
             <div
               class="item"
               :class="{ nohover: creatingFile }"
-              @click="creatingFile = true"
+              @click.stop="creatingFile = true"
             >
               <span v-if="!creatingFile">Add New File</span>
               <input
@@ -62,7 +61,11 @@
               />
             </div>
             <div class="bottom-bar">
-              <div class="item" v-for="icon of icons">
+              <div
+                class="item"
+                v-for="icon of icons"
+                :class="'icon-' + icon.id"
+              >
                 <img :src="icon.path" @click="icon.click" v-title="icon.name" />
               </div>
             </div>
@@ -102,11 +105,11 @@
           <div
             ref="textarea"
             class="textarea"
+            placeholder="Start Typing!"
             contenteditable
             spellcheck="true"
             v-focus
-            v-once
-            v-html="files[selected].content"
+            v-html="textareaContent"
             @input="files[selected].content = $event.target.innerHTML"
           ></div>
         </div>
