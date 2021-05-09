@@ -239,3 +239,7 @@ app.directive("click-outside", {
 });
 
 app.mount("#app");
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/service-worker.js");
+}

@@ -1,0 +1,21 @@
+{
+  "name": "Reflect",
+  "short_name": "Reflect",
+  "background_color": "#000",
+  "display": "minimal-ui",
+  "start_url": "/",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "./images/icon.svg",
+      "sizes": "144x144",
+      "type": "image/svg"
+    },
+    {
+      "src": "./images/icon.svg",
+      "sizes": "192x192",
+      "type": "image/svg"
+    }
+  ],
+  "capture_links": "none"
+}
