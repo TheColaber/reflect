@@ -35,7 +35,7 @@
               v-for="(file, index) of files"
               class="item"
               :class="{ selected: selected === index }"
-              @click="selected = index, showSidebar = false"
+              @click="selected = index, showSidebar = file.editing"
               @contextmenu.stop.prevent="showContextMenu($event, { sidebarItem: { index } })"
             >
               <span v-if="!file.editing">{{ file.name }}</span>

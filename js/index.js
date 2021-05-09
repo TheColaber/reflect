@@ -124,6 +124,9 @@ const app = Vue.createApp({
       this.hideContextMenu();
       let file = this.files[index];
       file.editing = true;
+      this.showSidebar = true;
+      console.log(this);
+      window.event.stopPropagation();
     },
     downloadFile() {
       let file = this.files[this.contextMenu.extra.index];

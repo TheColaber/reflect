@@ -323,7 +323,8 @@ span.title img {
   }
 }
 @media only screen and (max-width: 550px) {
-  .text-content .tools {
+  .text-content .tools,
+  .tooltip {
     display: none;
   }
 }
