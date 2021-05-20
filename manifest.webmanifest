@@ -1,10 +1,7 @@
 {
   "name": "Reflect",
   "short_name": "Reflect",
-  "background_color": "#000",
-  "display": "minimal-ui",
-  "start_url": "/reflect",
-  "scope": "/",
+  "description": "The most high tech and smooth notepad on the planet",
   "icons": [
     {
       "src": "reflect/images/icon.svg",
@@ -17,5 +14,8 @@
       "type": "image/svg"
     }
   ],
-  "capture_links": "none"
+  "start_url": "/reflect",
+  "display": "minimal-ui",
+  "background_color": "#000",
+  "theme_color": "#000"
 }
