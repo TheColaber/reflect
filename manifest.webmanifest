@@ -3,16 +3,16 @@
   "short_name": "Reflect",
   "background_color": "#000",
   "display": "minimal-ui",
-  "start_url": "/",
+  "start_url": "/reflect",
   "scope": "/",
   "icons": [
     {
-      "src": "./images/icon.svg",
+      "src": "reflect/images/icon.svg",
       "sizes": "144x144",
       "type": "image/svg"
     },
     {
-      "src": "./images/icon.svg",
+      "src": "reflect/images/icon.svg",
       "sizes": "192x192",
       "type": "image/svg"
     }
