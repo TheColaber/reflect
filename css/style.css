@@ -235,20 +235,50 @@ span.title img {
   border-radius: 20px;
   margin: 10px 0px;
   display: flex;
+  height: 30px;
 }
 .tools .item {
   display: flex;
   align-items: center;
+  flex-direction: column;
 }
 .tools .item.button {
   border-radius: 5px;
+  width: 30px;
 }
 .tools .item.button img {
   height: 30px;
+  width: 30px;
 }
 .tools .item.button:hover {
   background: #00000021;
 }
+
+.tools .item .children {
+  display: none;
+  color: white;
+  background: #1c1c1c;
+  width: 100px;
+  border-radius: 10px;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 1;
+  padding: 5px;
+}
+.tools .item .children.show {
+  display: flex;
+}
+.tools .item .children .item {
+  padding: 2px;
+  border-radius: 5px;
+  cursor: default;
+  user-select: none;
+}
+
+.tools .item .children .item:hover {
+  background: #ffffff11;
+}
+
 .tools input[type="number"] {
   height: 10px;
   font-size: 14px;

@@ -96,11 +96,25 @@
           <div class="tools">
             <div
               class="item button"
-              @click="toolPress(tool)"
-              v-title="tool"
+              v-click-outside="hideToolDropdown"
+              @click.stop="toolPress($event, tool)"
+              v-title="tool.name || tool"
               v-for="tool of tools"
             >
-              <img :src="`./images/${tool}.svg`" />
+              <img :src="`./images/${tool.tool || tool}.svg`" />
+              <div
+                class="children"
+                v-title=""
+                :class="{ show: toolDropdown == (tool.tool || tool) }"
+              >
+                <div
+                  v-for="child of tool.children"
+                  class="item"
+                  @click.stop="toolPress($event, tool, child)"
+                >
+                  {{ child }}
+                </div>
+              </div>
             </div>
           </div>
           <div

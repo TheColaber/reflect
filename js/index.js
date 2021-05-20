@@ -40,7 +40,27 @@ const app = Vue.createApp({
           click: this.hideSidebar,
         },
       ],
-      tools: ["bold", "italic", "underline"],
+      tools: [
+        "bold",
+        "italic",
+        "underline",
+        {
+          tool: "backColor",
+          name: "background",
+          children: [
+            "red",
+            "orange",
+            "yellow",
+            "green",
+            "blue",
+            "purple",
+            "white",
+            "black",
+            "transparent",
+          ],
+        },
+      ],
+      toolDropdown: null,
       selected: null,
       creatingFile: false,
       loaded: false,
@@ -62,7 +82,7 @@ const app = Vue.createApp({
       const found = this.tooltips.find((tooltip) =>
         event.path.includes(tooltip.el)
       );
-      if (!found) return (this.tooltip.show = false);
+      if (!found || !found.value) return (this.tooltip.show = false);
       const showTooltip = () => {
         this.tooltip.x = event.clientX + 10;
         this.tooltip.y = event.clientY + 10;
@@ -131,7 +151,7 @@ const app = Vue.createApp({
       let file = this.files[index];
       file.editing = true;
       this.showSidebar = true;
-      window.event.stopPropagation();
+      window.event.stopPropagation(); // TODO: Do this in the DOM
     },
     downloadFile() {
       let file = this.files[this.contextMenu.extra.index];
@@ -178,11 +198,18 @@ const app = Vue.createApp({
         ? "./images/sun.svg"
         : "./images/moon.svg";
     },
-    toolPress(tool) {
-      document.execCommand(tool);
+    toolPress(event, tool, child) {
+      if (tool.children?.length && !child) {
+        this.toolDropdown = tool.tool;
+        return;
+      }
+      this.hideToolDropdown();
+      document.execCommand(tool.tool || tool, false, child);
       this.$refs.textarea.focus();
     },
-
+    hideToolDropdown() {
+      this.toolDropdown = null;
+    },
     hideSidebar() {
       this.showSidebar = false;
     },
