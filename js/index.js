@@ -59,6 +59,11 @@ const app = Vue.createApp({
             "transparent",
           ],
         },
+        {
+          tool: "microphone",
+          name: "BETA - record",
+          click: this.recordAudio,
+        },
       ],
       toolDropdown: null,
       selected: null,
@@ -66,6 +71,10 @@ const app = Vue.createApp({
       loaded: false,
       showSidebar: false,
       textareaContent: "",
+      recording: {
+        mediaRecorder: null,
+        chunks: [],
+      },
     };
   },
   computed: {},
@@ -198,20 +207,60 @@ const app = Vue.createApp({
         ? "./images/sun.svg"
         : "./images/moon.svg";
     },
-    toolPress(event, tool, child) {
+    toolPress(tool, child) {
+      this.$refs.textarea.focus();
+      if (tool.click) return tool.click();
       if (tool.children?.length && !child) {
         this.toolDropdown = tool.tool;
         return;
       }
       this.hideToolDropdown();
       document.execCommand(tool.tool || tool, false, child);
-      this.$refs.textarea.focus();
     },
     hideToolDropdown() {
       this.toolDropdown = null;
     },
     hideSidebar() {
       this.showSidebar = false;
+    },
+    async recordAudio() {
+      if (!window.navigator?.mediaDevices?.getUserMedia) return;
+      if (this.recording.mediaRecorder) {
+        this.recording.mediaRecorder.stop();
+        this.recording.mediaRecorder.onstop = (e) => {
+          const blob = new Blob(this.recording.chunks, {
+            type: "audio/ogg; codecs=opus",
+          });
+
+          var a = new FileReader();
+          a.onload = (e) => {
+            this.files[this.selected].content += `
+            <div>&nbsp;<audio controls src="${e.target.result}"></audio>&nbsp;</div>`;
+            this.textareaContent = this.files[this.selected].content;
+
+            this.recording.chunks = [];
+            this.recording.mediaRecorder = null;
+            this.$refs.textarea.focus();
+          };
+          a.readAsDataURL(blob);
+        };
+        return;
+      }
+
+      let error = false;
+      const stream = await navigator.mediaDevices
+        .getUserMedia({
+          audio: true,
+        })
+        .catch(() => (error = true));
+      if (error) return;
+      this.recording.mediaRecorder = new MediaRecorder(stream);
+      this.recording.mediaRecorder.start();
+
+      this.recording.mediaRecorder.ondataavailable = (e) => {
+        this.recording.chunks.push(e.data);
+      };
+      //tools.find((tool) => tool.tool == "microphone");
     },
   },
   watch: {

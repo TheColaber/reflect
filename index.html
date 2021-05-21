@@ -108,7 +108,7 @@
             <div
               class="item button"
               v-click-outside="hideToolDropdown"
-              @click.stop="toolPress($event, tool)"
+              @click.stop="toolPress(tool)"
               v-title="tool.name || tool"
               v-for="tool of tools"
             >
@@ -121,7 +121,7 @@
                 <div
                   v-for="child of tool.children"
                   class="item"
-                  @click.stop="toolPress($event, tool, child)"
+                  @click.stop="toolPress(tool, child)"
                 >
                   {{ child }}
                 </div>
